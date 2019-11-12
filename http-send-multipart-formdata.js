@@ -19,17 +19,6 @@ module.exports = function(RED) {
         // 1) Process inputs to Node
         this.on("input", function(msg) {
 
-            // Object extend
-            function extend(target) {
-                var sources = [].slice.call(arguments, 1);
-                sources.forEach(function(source) {
-                    for (var prop in source) {
-                        target[prop] = source[prop];
-                    }
-                });
-                return target;
-            }
-
             // Look for value - // TODO improve logic
 
             if (!n.formdata) {
@@ -73,10 +62,10 @@ module.exports = function(RED) {
                     'Content-Type': 'multipart/form-data'
                 };
                 if (n.headers) {
-                    var headers = extend({}, headers, n.headers);
+                    headers = Object.assign({}, headers, n.headers);
                 }
                 if (msg.headers) {
-                    var headers = extend({}, headers, msg.headers);
+                    headers = Object.assign({}, headers, msg.headers);
                 }
                 msg['request-headers'] = headers;
 
