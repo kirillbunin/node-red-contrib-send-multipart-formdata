@@ -67,6 +67,7 @@ module.exports = function(RED) {
                         headers,
                         n.headers.reduce(function(obj, item) {
                             obj[item.name] = item.value
+                            return obj
                         })
                     );
                 }
@@ -74,8 +75,9 @@ module.exports = function(RED) {
 
                 var formdata = n.formdata.reduce(function(obj, item) {
                     obj[item.name] = item.value
+                    return obj
                 })
-                
+
                 var options = {
                     method: 'POST',
                     url: url,
