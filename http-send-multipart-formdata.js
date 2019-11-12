@@ -84,7 +84,9 @@ module.exports = function(RED) {
                     headers: headers,
                     formData: formdata
                 };
-
+                
+                console.log('Options:', options)
+                
                 var thisReq = request(options, function(err, resp, body) {
                     // remove sending status
                     node.status({});
