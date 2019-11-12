@@ -68,7 +68,7 @@ module.exports = function(RED) {
                         n.headers.reduce(function(obj, item) {
                             obj[item.name] = item.value
                             return obj
-                        })
+                        }, {})
                     );
                 }
                 msg['request-headers'] = headers;
@@ -76,7 +76,7 @@ module.exports = function(RED) {
                 var formdata = n.formdata.reduce(function(obj, item) {
                     obj[item.name] = item.value
                     return obj
-                })
+                }, {})
 
                 var options = {
                     method: 'POST',
@@ -84,8 +84,6 @@ module.exports = function(RED) {
                     headers: headers,
                     formData: formdata
                 };
-                
-                console.log('Options:', options)
                 
                 var thisReq = request(options, function(err, resp, body) {
                     // remove sending status
@@ -122,7 +120,6 @@ module.exports = function(RED) {
                             }
                         }
                     }
-
                     node.send(msg);
                 });
 
