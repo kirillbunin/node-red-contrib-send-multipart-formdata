@@ -9,6 +9,7 @@ module.exports = function(RED) {
         var node = this;
         var nodeUrl = n.url;
 
+        this.ret = n.ret || "txt"; // default return type is text
         if (RED.settings.httpRequestTimeout) {
             this.reqTimeout = parseInt(RED.settings.httpRequestTimeout) || 60000;
         } else {
@@ -38,7 +39,7 @@ module.exports = function(RED) {
                 msg.statusCode = 400;
                 node.send(msg); // TODO: make sure this escapes entirely; need better error-handling here
             } else {
-                
+
                 node.status({
                     fill: "blue",
                     shape: "dot",
@@ -106,6 +107,18 @@ module.exports = function(RED) {
                     msg.statusCode = resp.statusCode || resp.status;
                     msg['http-send-multipart-headers'] = resp.headers;
                     msg['http-send-multipart-options'] = options;
+
+                    if (node.ret !== "bin") {
+                        msg.payload = body.toString('utf8'); // txt
+
+                        if (node.ret === "obj") {
+                            try {
+                                msg.payload = JSON.parse(body);
+                            } catch (e) {
+                                node.warn(RED._("httpSendMultipart.errors.json-error"));
+                            }
+                        }
+                    }
 
                     node.send(msg);
                 });

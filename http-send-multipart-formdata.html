@@ -36,6 +36,15 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="form-row">
+		<label for="node-input-ret"><i class="fa fa-arrow-left"></i><span> Return</span></label>
+		<select type="text" id="node-input-ret" style="width:70%;">
+        <option selected value="txt">UTF-8 string</option>
+        <option value="bin">Binary</option>
+        <option value="obj">a parsed JSON object</option>
+        </select>
+	</div>
 </script>
 
 <script type="text/x-red" data-help-name="http-send-multipart-formdata">
@@ -50,6 +59,9 @@
 		defaults: {
 			name: {
 				value: ""
+			},
+			ret: {
+				value: "txt"
 			},
 			headers: {
 				value: [],
@@ -180,6 +192,15 @@
 			} else {
 				console.log('$this.headers is empty', $this.headers, ', length:', $this.headers.length)
 			}
+
+			// Ret setup
+			$("#node-input-ret").change(function() {
+				if ($("#node-input-ret").val() === "obj") {
+					$("#tip-json").show();
+				} else {
+					$("#tip-json").hide();
+				}
+			});
 
 			console.log('oneditprepare last', this)
 		},
