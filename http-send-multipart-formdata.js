@@ -32,7 +32,7 @@ module.exports = function(RED) {
 
             // Look for value - // TODO improve logic
 
-            if (!n.formdata && !msg.formdata) {
+            if (!n.formdata) {
                 // throw an error if no value
                 node.warn(RED._("Error: no formdata found to send file."));
                 msg.error = "formdata was not defined";
@@ -72,6 +72,9 @@ module.exports = function(RED) {
                 var headers = {
                     'Content-Type': 'multipart/form-data'
                 };
+                if (n.headers) {
+                    var headers = extend({}, headers, n.headers);
+                }
                 if (msg.headers) {
                     var headers = extend({}, headers, msg.headers);
                 }
@@ -81,7 +84,7 @@ module.exports = function(RED) {
                     method: 'POST',
                     url: url,
                     headers: headers,
-                    formData: msg.formdata
+                    formData: n.formdata
                 };
 
                 var thisReq = request(options, function(err, resp, body) {
