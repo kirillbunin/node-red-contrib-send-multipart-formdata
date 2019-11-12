@@ -62,18 +62,25 @@ module.exports = function(RED) {
                     'Content-Type': 'multipart/form-data'
                 };
                 if (n.headers) {
-                    headers = Object.assign({}, headers, n.headers);
-                }
-                if (msg.headers) {
-                    headers = Object.assign({}, headers, msg.headers);
+                    headers = Object.assign(
+                        {},
+                        headers,
+                        n.headers.reduce(function(obj, item) {
+                            obj[item.name] = item.value
+                        })
+                    );
                 }
                 msg['request-headers'] = headers;
 
+                var formdata = n.formdata.reduce(function(obj, item) {
+                    obj[item.name] = item.value
+                })
+                
                 var options = {
                     method: 'POST',
                     url: url,
                     headers: headers,
-                    formData: n.formdata
+                    formData: formdata
                 };
 
                 var thisReq = request(options, function(err, resp, body) {
