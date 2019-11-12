@@ -8,7 +8,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/kirillbunin/node-red-contrib-send-multipart"
+		"url": "git+https://github.com/kirillbunin/node-red-contrib-send-multipart-formdata"
 	},
 	"keywords": [
 		"node-red",
